@@ -22,29 +22,32 @@ class PinYin(object):
         for line in self.data.split('\n'):
             self.word_dict[line[:5].strip()] = line[8:]
 
-    def hanzi2pinyin(self, string=""):
+    def hanzi2pinyin(self, s):
         result = []
-        if not isinstance(string, unicode):
-            string = string.decode("utf-8")
+        if not isinstance(s, unicode):
+            s = s.decode('utf-8')
 
-        for char in string:
+        for char in s:
             key = '%X' % ord(char)
             result.append(self.word_dict.get(key, char).split()[0][:-1].lower())
 
         return result
 
-    def hanzi2pinyin_split(self, string="", split=""):
-        result = self.hanzi2pinyin(string=string)
-        if split == "":
+    def hanzi2pinyin_split(self, s='', delimiter=''):
+        result = self.hanzi2pinyin(s=s)
+        if delimiter == '':
             return result
         else:
-            return split.join(result)
+            return delimiter.join(result)
 
+    def hz2py(self, s, delimiter=' '):
+        return delimiter.join([p[0] for p in self.hanzi2pinyin(s)])
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     test = PinYin()
     test.load_word()
-    string = "钓鱼岛是中国的"
-    print "in: %s" % string
-    print "out: %s" % str(test.hanzi2pinyin(string=string))
-    print "out: %s" % test.hanzi2pinyin_split(string=string, split="-")
+    s = "钓鱼岛是中国的"
+    print "in: %s" % s
+    print "out: %s" % str(test.hanzi2pinyin(s))
+    print "out: %s" % test.hanzi2pinyin_split(s=s, delimiter='-')
+    print "out: %s" % test.hz2py(u'钓鱼岛', delimiter=' ')
