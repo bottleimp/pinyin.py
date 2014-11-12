@@ -7,8 +7,6 @@
     Modified by anakin.yan@gmail.com
 """
 
-__all__ = ["PinYin"]
-
 import pkgutil
 
 
@@ -41,7 +39,7 @@ class PinYin(object):
             return delimiter.join(result)
 
     def hz2py(self, s, delimiter=' '):
-        return delimiter.join([p[0] for p in self.hanzi2pinyin(s)])
+        return delimiter.join(p[0] for p in self.hanzi2pinyin(s))
 
 if __name__ == '__main__':
     test = PinYin()
